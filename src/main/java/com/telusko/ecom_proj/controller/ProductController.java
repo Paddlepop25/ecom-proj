@@ -3,6 +3,8 @@ package com.telusko.ecom_proj.controller;
 import com.telusko.ecom_proj.model.Product;
 import com.telusko.ecom_proj.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,12 +33,23 @@ public class ProductController {
     }
 
     @GetMapping("/products")
-    public List<Product> getAllProducts() {
-        return service.getAllProducts();
+//    public List<Product> getAllProducts() {
+//        return service.getAllProducts();
+//    }
+    // ResponseEntity returns response status (like Response 200, Response 404)
+    public ResponseEntity<List<Product>> getAllProducts() {
+        return new ResponseEntity<>(service.getAllProducts(), HttpStatus.OK);
     }
 
     @GetMapping("/product/{id}")
-    public Product getProduct(@PathVariable int id) {
-        return service.getProductById(id);
+    public ResponseEntity<Product> getProduct(@PathVariable int id) {
+        // check if product is there
+        Product product = service.getProductById(id);
+
+        if (product != null) {
+            return new ResponseEntity<>(product, HttpStatus.OK); // return status 200
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND); // return status 404
+        }
     }
 }
