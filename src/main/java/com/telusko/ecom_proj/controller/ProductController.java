@@ -3,6 +3,7 @@ package com.telusko.ecom_proj.controller;
 import com.telusko.ecom_proj.model.Product;
 import com.telusko.ecom_proj.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
+@CrossOrigin // to prevent CORS error on reac
 @RequestMapping("/api")
 public class ProductController {
 
@@ -25,16 +27,11 @@ public class ProductController {
 //    private ProductService service;
 
     private ProductService service;
-    // 2 Constructor injection - he recommend
+    // 2 Constructor injection - he recommend this
     // create constructor
     public ProductController (ProductService service) {
         this.service = service;
     }
-
-    // 3 Setter injection - doesn't work
-//    public void setService (ProductService service) {
-//        this.service = service;
-//    }
 
     @GetMapping("/products")
     public List<Product> getAllProducts() {
